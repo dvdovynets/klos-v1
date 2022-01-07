@@ -13,4 +13,6 @@ public interface BraceletService {
     BraceletResponseDto getBraceletById(String id);
 
     BraceletResponseDto updateBracelet(BraceletRequestDto dto, String id);
+
+    void deleteBracelet(String id);
 }

@@ -12,4 +12,8 @@ public interface LapService {
     List<LapResponseDto> getAllLaps();
 
     LapResponseDto getLapById(Long id);
+
+    LapResponseDto updateLap(LapRequestDto dto, Long id);
+
+    void deleteLap(Long id);
 }

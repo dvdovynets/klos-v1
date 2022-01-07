@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class BraceletRequestDto {
     private String braceletId;
-    private Long participantId;
+    private Long resultId;
 }

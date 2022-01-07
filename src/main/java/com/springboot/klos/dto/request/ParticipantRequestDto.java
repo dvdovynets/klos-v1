@@ -9,5 +9,8 @@ public class ParticipantRequestDto {
     private String gender;
     private String dateOfBirth;
     private String city;
-    private ContactRequestDto contactDto;
+    private String email;
+    private String password;
+    private String repeatPassword;
+    private String phoneNumber;
 }

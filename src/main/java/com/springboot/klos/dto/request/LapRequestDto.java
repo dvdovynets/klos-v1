@@ -8,5 +8,6 @@ public class LapRequestDto {
     private String lapTime;
     private String actualTime;
     private String scannerId;
-    private String braceletNumber;
+    private String braceletId;
+    private Long eventId;
 }

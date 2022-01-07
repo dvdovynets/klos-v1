@@ -9,5 +9,5 @@ public class LapResponseDto {
     private String lapTime;
     private String actualTime;
     private String scannerId;
-    private Long participantId;
+    private Long resultId;
 }

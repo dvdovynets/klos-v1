@@ -42,9 +42,17 @@ public class Participant {
     @Column(name = "city")
     private String city;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contacts_id")
-    private Contact contact;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     public enum Gender {
         MALE, FEMALE, OTHER

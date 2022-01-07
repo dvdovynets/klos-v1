@@ -5,6 +5,7 @@ import com.springboot.klos.dto.response.BraceletResponseDto;
 import com.springboot.klos.service.BraceletService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,10 +44,16 @@ public class BraceletRestController {
         return ResponseEntity.ok(braceletService.getBraceletById(id));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<BraceletResponseDto> partiallyUpdateBracelet(
+    @PutMapping("/{id}")
+    public ResponseEntity<BraceletResponseDto> updateBracelet(
             @RequestBody BraceletRequestDto dto,
             @PathVariable(name = "id") String id) {
         return new ResponseEntity<>(braceletService.updateBracelet(dto, id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBracelet(@PathVariable(name = "id") String id) {
+        braceletService.deleteBracelet(id);
+        return new ResponseEntity<>("Bracelet was successfully deleted!", HttpStatus.OK);
     }
 }

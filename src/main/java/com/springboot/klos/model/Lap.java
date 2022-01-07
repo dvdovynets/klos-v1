@@ -1,9 +1,8 @@
 package com.springboot.klos.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -26,7 +26,7 @@ public class Lap {
     private int lapNumber;
 
     @Column(name = "lap_time")
-    private LocalDateTime lapTime;
+    private LocalTime lapTime;
 
     @Column(name = "actual_time")
     private LocalDateTime actualTime;
@@ -35,6 +35,6 @@ public class Lap {
     private String scannerId;
 
     @ManyToOne
-    @JoinColumn(name = "participants_id")
-    private Participant participant;
+    @JoinColumn(name = "results_id")
+    private Result result;
 }

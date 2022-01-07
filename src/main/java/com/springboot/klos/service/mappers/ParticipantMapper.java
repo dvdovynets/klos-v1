@@ -10,15 +10,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class ParticipantMapper {
+public class ParticipantMapper implements GenericMapper<Participant, ParticipantRequestDto, ParticipantResponseDto> {
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern(DateTimePatternUtil.DATE_PATTERN);
-    private final ContactMapper contactMapper;
 
-    public ParticipantMapper(ContactMapper contactMapper) {
-        this.contactMapper = contactMapper;
+    @Override
+    public Participant mapToModel(ParticipantRequestDto dto) {
+        Participant participant = new Participant();
+        participant.setName(dto.getName());
+        participant.setSurname(dto.getSurname());
+        participant.setGender(Participant.Gender.valueOf(dto.getGender()));
+        participant.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth(), formatter));
+        participant.setCity(dto.getCity());
+        participant.setEmail(dto.getEmail());
+        participant.setPassword(dto.getPassword());
+        participant.setPhoneNumber(dto.getPhoneNumber());
+        return participant;
     }
 
+    @Override
     public ParticipantResponseDto mapToDto(Participant participant) {
         ParticipantResponseDto dto = new ParticipantResponseDto();
         dto.setId(participant.getId());
@@ -27,18 +37,18 @@ public class ParticipantMapper {
         dto.setGender(participant.getGender().name());
         dto.setDateOfBirth(participant.getDateOfBirth().format(formatter));
         dto.setCity(participant.getCity());
-        dto.setContactId(participant.getContact().getId());
+        dto.setEmail(participant.getEmail());
+        dto.setPhoneNumber(participant.getPhoneNumber());
         return dto;
     }
 
-    public Participant mapToModel(ParticipantRequestDto dto) {
-        Participant participant = new Participant();
+    public Participant mapDataToParticipant(ParticipantRequestDto dto, Participant participant) {
         participant.setName(dto.getName());
         participant.setSurname(dto.getSurname());
         participant.setGender(Participant.Gender.valueOf(dto.getGender()));
         participant.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth(), formatter));
         participant.setCity(dto.getCity());
-        participant.setContact(contactMapper.mapToModel(dto.getContactDto()));
+        participant.setPhoneNumber(dto.getPhoneNumber());
         return participant;
     }
 }
