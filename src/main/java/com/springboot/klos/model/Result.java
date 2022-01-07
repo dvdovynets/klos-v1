@@ -19,7 +19,6 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "results")
 public class Result {

@@ -14,7 +14,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "events")
 public class Event {
