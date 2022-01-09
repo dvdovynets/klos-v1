@@ -75,7 +75,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     public boolean checkIfEmailExists(String email) {
-        return participantDao.existByEmail(email);
+        return participantDao.existsByEmail(email);
     }
 
     @Override

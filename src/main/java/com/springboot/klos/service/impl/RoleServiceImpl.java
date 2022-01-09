@@ -3,7 +3,9 @@ package com.springboot.klos.service.impl;
 import com.springboot.klos.dao.RoleDao;
 import com.springboot.klos.model.Role;
 import com.springboot.klos.service.RoleService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleServiceImpl implements RoleService {
     private final RoleDao roleDao;
 

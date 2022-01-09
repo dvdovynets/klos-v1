@@ -10,5 +10,5 @@ public interface ParticipantDao extends JpaRepository<Participant, Long> {
 
     Optional<Participant> findByEmailAndIsDeleted(String email, boolean isDeleted);
 
-    boolean existByEmail(String email);
+    boolean existsByEmail(String email);
 }
