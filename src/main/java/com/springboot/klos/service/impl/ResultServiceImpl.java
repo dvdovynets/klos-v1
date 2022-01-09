@@ -12,13 +12,10 @@ import com.springboot.klos.model.Result;
 import com.springboot.klos.model.Lap;
 import com.springboot.klos.service.ResultService;
 import com.springboot.klos.service.mappers.ResultMapper;
-import com.springboot.klos.utils.ResultDataCalculator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class ResultServiceImpl implements ResultService {

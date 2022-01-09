@@ -1,4 +1,4 @@
-package com.springboot.klos.utils;
+package com.springboot.klos.service.impl;
 
 import com.springboot.klos.model.Result;
 import com.springboot.klos.model.Lap;

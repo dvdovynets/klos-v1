@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class BraceletRestController {
 
     @PostMapping
     public ResponseEntity<BraceletResponseDto> createBracelet(
-            @RequestBody BraceletRequestDto dto) {
+            @Valid @RequestBody BraceletRequestDto dto) {
         return new ResponseEntity<>(braceletService.createBracelet(dto), HttpStatus.CREATED);
     }
 
@@ -46,7 +47,7 @@ public class BraceletRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<BraceletResponseDto> updateBracelet(
-            @RequestBody BraceletRequestDto dto,
+            @Valid @RequestBody BraceletRequestDto dto,
             @PathVariable(name = "id") String id) {
         return new ResponseEntity<>(braceletService.updateBracelet(dto, id), HttpStatus.OK);
     }

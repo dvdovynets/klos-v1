@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class EventRestController {
     }
 
     @PostMapping
-    public ResponseEntity<EventResponseDto> createEvent(@RequestBody EventRequestDto dto) {
+    public ResponseEntity<EventResponseDto> createEvent(@Valid @RequestBody EventRequestDto dto) {
         return new ResponseEntity<>(eventService.createEvent(dto), HttpStatus.CREATED);
     }
 
@@ -42,7 +43,7 @@ public class EventRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EventResponseDto> updateEvent(
-            @RequestBody EventRequestDto dto, @PathVariable(name = "id") Long id) {
+            @Valid @RequestBody EventRequestDto dto, @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(eventService.updateEvent(dto, id), HttpStatus.OK);
     }
 

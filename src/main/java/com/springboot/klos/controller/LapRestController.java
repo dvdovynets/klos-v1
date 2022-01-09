@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class LapRestController {
     }
 
     @PostMapping
-    public ResponseEntity<LapResponseDto> createLap(@RequestBody LapRequestDto dto) {
+    public ResponseEntity<LapResponseDto> createLap(@Valid @RequestBody LapRequestDto dto) {
         return new ResponseEntity<>(lapService.createLap(dto), HttpStatus.CREATED);
     }
 
@@ -42,7 +43,7 @@ public class LapRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LapResponseDto> updateLap(
-            @RequestBody LapRequestDto dto, @PathVariable(name = "id") Long id) {
+            @Valid @RequestBody LapRequestDto dto, @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(lapService.updateLap(dto, id), HttpStatus.OK);
     }
 

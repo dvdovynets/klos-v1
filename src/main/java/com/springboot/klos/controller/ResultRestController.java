@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,8 @@ public class ResultRestController {
     }
 
     @PostMapping
-    public ResponseEntity<ResultResponseDto> createResult(@RequestBody ResultRequestDto dto) {
+    public ResponseEntity<ResultResponseDto> createResult(
+            @Valid @RequestBody ResultRequestDto dto) {
         return new ResponseEntity<>(resultService.createResult(dto), HttpStatus.CREATED);
     }
 
@@ -44,7 +46,7 @@ public class ResultRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ResultResponseDto> updateResult(
-            @RequestBody ResultRequestDto dto, @PathVariable(name = "id") Long id) {
+            @Valid @RequestBody ResultRequestDto dto, @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(resultService.updateResult(dto, id), HttpStatus.OK);
     }
 

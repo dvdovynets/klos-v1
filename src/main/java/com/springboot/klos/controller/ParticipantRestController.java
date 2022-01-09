@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,8 +27,10 @@ public class ParticipantRestController {
     }
 
     @PostMapping
-    public ResponseEntity<ParticipantResponseDto> createParticipant(@RequestBody ParticipantRequestDto requestDto) {
-        return new ResponseEntity<>(participantService.createParticipant(requestDto), HttpStatus.CREATED);
+    public ResponseEntity<ParticipantResponseDto> createParticipant(
+            @Valid @RequestBody ParticipantRequestDto requestDto) {
+        return new ResponseEntity<>(
+                participantService.createParticipant(requestDto), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -36,13 +39,14 @@ public class ParticipantRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParticipantResponseDto> getParticipantById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ParticipantResponseDto> getParticipantById(
+            @PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(participantService.getParticipantById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ParticipantResponseDto> updateParticipant(
-            @RequestBody ParticipantRequestDto dto, @PathVariable Long id) {
+            @Valid @RequestBody ParticipantRequestDto dto, @PathVariable Long id) {
         return new ResponseEntity<>(participantService.updateParticipant(dto, id), HttpStatus.OK);
     }
 
