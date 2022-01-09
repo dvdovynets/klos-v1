@@ -5,6 +5,7 @@ import com.springboot.klos.dto.response.ParticipantResponseDto;
 import com.springboot.klos.service.ParticipantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +27,7 @@ public class ParticipantRestController {
         this.participantService = participantService;
     }
 
-    @PostMapping
-    public ResponseEntity<ParticipantResponseDto> createParticipant(
-            @Valid @RequestBody ParticipantRequestDto requestDto) {
-        return new ResponseEntity<>(
-                participantService.createParticipant(requestDto), HttpStatus.CREATED);
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<ParticipantResponseDto> getAllParticipants() {
         return participantService.getAllParticipants();
@@ -44,12 +39,14 @@ public class ParticipantRestController {
         return ResponseEntity.ok(participantService.getParticipantById(id));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
     public ResponseEntity<ParticipantResponseDto> updateParticipant(
             @Valid @RequestBody ParticipantRequestDto dto, @PathVariable Long id) {
         return new ResponseEntity<>(participantService.updateParticipant(dto, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteParticipant(@PathVariable(name = "id") Long id) {
         participantService.deleteParticipant(id);

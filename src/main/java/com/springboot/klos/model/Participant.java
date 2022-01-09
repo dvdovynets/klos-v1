@@ -3,21 +3,29 @@ package com.springboot.klos.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Getter
 @Setter
 @Entity
-@Table(name = "participants")
+@Table(name = "participants",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +58,12 @@ public class Participant {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "participant_roles",
+            joinColumns = @JoinColumn(name = "participant_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
 
     public enum Gender {
         MALE, FEMALE, OTHER

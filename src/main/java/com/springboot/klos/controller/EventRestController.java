@@ -5,6 +5,7 @@ import com.springboot.klos.dto.response.EventResponseDto;
 import com.springboot.klos.service.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,27 +27,32 @@ public class EventRestController {
         this.eventService = eventService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<EventResponseDto> createEvent(@Valid @RequestBody EventRequestDto dto) {
         return new ResponseEntity<>(eventService.createEvent(dto), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<EventResponseDto> getAllEvents() {
         return eventService.getAllEvents();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<EventResponseDto> getEventById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(eventService.getEventById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<EventResponseDto> updateEvent(
             @Valid @RequestBody EventRequestDto dto, @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(eventService.updateEvent(dto, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable(name = "id") Long id) {
         eventService.deleteEvent(id);

@@ -5,6 +5,7 @@ import com.springboot.klos.dto.response.ResultResponseDto;
 import com.springboot.klos.service.ResultService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class ResultRestController {
         this.resultService = resultService;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<ResultResponseDto> createResult(
             @Valid @RequestBody ResultRequestDto dto) {
@@ -39,17 +41,20 @@ public class ResultRestController {
         return resultService.getAllResults(eventId);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponseDto> getResultById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(resultService.getResultById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResultResponseDto> updateResult(
             @Valid @RequestBody ResultRequestDto dto, @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(resultService.updateResult(dto, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteResult(@PathVariable(name = "id") Long id) {
         resultService.deleteResult(id);

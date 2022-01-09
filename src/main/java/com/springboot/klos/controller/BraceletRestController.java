@@ -5,6 +5,7 @@ import com.springboot.klos.dto.response.BraceletResponseDto;
 import com.springboot.klos.service.BraceletService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,23 +29,27 @@ public class BraceletRestController {
         this.braceletService = braceletService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<BraceletResponseDto> createBracelet(
             @Valid @RequestBody BraceletRequestDto dto) {
         return new ResponseEntity<>(braceletService.createBracelet(dto), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<BraceletResponseDto> getAllBracelets() {
         return braceletService.getAllBracelets();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<BraceletResponseDto> getBraceletById(
             @PathVariable(name = "id") String id) {
         return ResponseEntity.ok(braceletService.getBraceletById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<BraceletResponseDto> updateBracelet(
             @Valid @RequestBody BraceletRequestDto dto,
@@ -52,6 +57,7 @@ public class BraceletRestController {
         return new ResponseEntity<>(braceletService.updateBracelet(dto, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBracelet(@PathVariable(name = "id") String id) {
         braceletService.deleteBracelet(id);

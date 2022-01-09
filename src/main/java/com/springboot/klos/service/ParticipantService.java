@@ -16,4 +16,8 @@ public interface ParticipantService {
     ParticipantResponseDto updateParticipant(ParticipantRequestDto dto, Long id);
 
     void deleteParticipant(Long id);
+
+    boolean checkIfEmailExists(String email);
+
+    ParticipantResponseDto createAdmin(ParticipantRequestDto dto);
 }

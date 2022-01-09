@@ -7,4 +7,8 @@ import java.util.Optional;
 
 public interface ParticipantDao extends JpaRepository<Participant, Long> {
     Optional<Participant> findByIdAndIsDeleted(Long id, boolean isDeleted);
+
+    Optional<Participant> findByEmailAndIsDeleted(String email, boolean isDeleted);
+
+    boolean existByEmail(String email);
 }
