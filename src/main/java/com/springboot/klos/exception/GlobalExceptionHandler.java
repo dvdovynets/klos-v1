@@ -4,6 +4,7 @@ import com.springboot.klos.dto.response.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,7 +31,10 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException exception, WebRequest webRequest) {
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
+            String fieldName = (error instanceof FieldError)
+                    ? ((FieldError) error).getField()
+                    : error.getObjectName();
+
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });

@@ -34,9 +34,8 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     public ParticipantResponseDto createParticipant(ParticipantRequestDto dto) {
-        String user = Role.RoleName.ROLE_USER.name();
-        Role roleUser = roleDao.findByName(user).orElseThrow(
-                () -> new ResourceNotFoundException("Role", "name", user));
+        Role roleUser = roleDao.findByName(Role.RoleName.ROLE_USER).orElseThrow(
+                () -> new ResourceNotFoundException("Role", "name", "ROLE_USER"));
         Participant participant = participantMapper.mapToModel(dto);
         participant.setRoles(Collections.singleton(roleUser));
         return participantMapper.mapToDto(participantDao.save(participant));
@@ -80,12 +79,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     public ParticipantResponseDto createAdmin(ParticipantRequestDto dto) {
-        String admin = Role.RoleName.ROLE_ADMIN.name();
-        String user = Role.RoleName.ROLE_USER.name();
-        Role roleUser = roleDao.findByName(user).orElseThrow(
-                () -> new ResourceNotFoundException("Role", "name", user));
-        Role roleAdmin = roleDao.findByName(admin).orElseThrow(
-                () -> new ResourceNotFoundException("Role", "name", admin));
+        Role roleAdmin = roleDao.findByName(Role.RoleName.ROLE_ADMIN).orElseThrow(
+                () -> new ResourceNotFoundException("Role", "name", "ROLE_ADMIN"));
+        Role roleUser = roleDao.findByName(Role.RoleName.ROLE_USER).orElseThrow(
+                () -> new ResourceNotFoundException("Role", "name", "ROLE_USER"));
         Participant participant = participantMapper.mapToModel(dto);
         participant.setRoles(Set.of(roleUser, roleAdmin));
         return participantMapper.mapToDto(participantDao.save(participant));
