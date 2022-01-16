@@ -3,7 +3,6 @@ package com.springboot.klos.model;
 import com.springboot.klos.utils.DateTimePatternUtil;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +27,7 @@ public class Result {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 7)
-    private Status status;
+    private Status status = Status.DNS;
 
     @Column(name = "laps_completed")
     private int lapsCompleted;

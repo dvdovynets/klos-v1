@@ -1,8 +1,11 @@
 package com.springboot.klos.controller;
 
 import com.springboot.klos.dto.request.ResultRequestDto;
+import com.springboot.klos.dto.response.LapResponseDto;
 import com.springboot.klos.dto.response.ResultResponseDto;
 import com.springboot.klos.service.ResultService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,8 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(description = "All operations for Result entity")
 @RestController
-@RequestMapping("/api/results")
+@RequestMapping("/api/v1/results")
 public class ResultRestController {
     private final ResultService resultService;
 
@@ -28,6 +32,8 @@ public class ResultRestController {
         this.resultService = resultService;
     }
 
+    @ApiOperation(value = "Endpoint for registration for a new event(adding new result)",
+            notes = "Access level USER.")
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<ResultResponseDto> createResult(
@@ -35,18 +41,35 @@ public class ResultRestController {
         return new ResponseEntity<>(resultService.createResult(dto), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Endpoint for getting all results",
+            notes = "Access level USER. "
+                    + "If an eventId will be added, endpoint will return results for "
+                    + "a particular event.")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public List<ResultResponseDto> getAllResults(
             @RequestParam(value = "eventId", defaultValue = "0", required = false) Long eventId) {
         return resultService.getAllResults(eventId);
     }
 
+    @ApiOperation(value = "Endpoint for getting all laps for result",
+            notes = "Access level USER.")
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/{id}/laps")
+    public List<LapResponseDto> getAllLapsForResult(@PathVariable(name = "id") Long id) {
+        return resultService.getAllLapsForResult(id);
+    }
+
+    @ApiOperation(value = "Endpoint for getting result by id",
+            notes = "Access level USER.")
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponseDto> getResultById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(resultService.getResultById(id));
     }
 
+    @ApiOperation(value = "Endpoint for updating a result",
+            notes = "Access level ADMIN.")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResultResponseDto> updateResult(
@@ -54,6 +77,8 @@ public class ResultRestController {
         return new ResponseEntity<>(resultService.updateResult(dto, id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Endpoint for soft deleting a result",
+            notes = "Access level ADMIN.")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteResult(@PathVariable(name = "id") Long id) {

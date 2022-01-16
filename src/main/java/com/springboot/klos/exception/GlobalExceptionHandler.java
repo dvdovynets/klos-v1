@@ -4,7 +4,7 @@ import com.springboot.klos.dto.response.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +24,16 @@ public class GlobalExceptionHandler {
         errorDetails.setMessage(exception.getMessage());
         errorDetails.setDetails(webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(KLOSApiException.class)
+    public ResponseEntity<ErrorDetails> handleKLOSApiException(
+            ResourceNotFoundException exception, WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setTimestamp(LocalDateTime.now());
+        errorDetails.setMessage(exception.getMessage());
+        errorDetails.setDetails(webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

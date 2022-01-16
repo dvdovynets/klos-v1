@@ -1,9 +1,11 @@
 package com.springboot.klos.service.impl;
 
 import com.springboot.klos.dao.EventDao;
+import com.springboot.klos.dao.LapDao;
 import com.springboot.klos.dao.ParticipantDao;
 import com.springboot.klos.dao.ResultDao;
 import com.springboot.klos.dto.request.ResultRequestDto;
+import com.springboot.klos.dto.response.LapResponseDto;
 import com.springboot.klos.dto.response.ResultResponseDto;
 import com.springboot.klos.exception.ResourceNotFoundException;
 import com.springboot.klos.model.Event;
@@ -11,6 +13,7 @@ import com.springboot.klos.model.Participant;
 import com.springboot.klos.model.Result;
 import com.springboot.klos.model.Lap;
 import com.springboot.klos.service.ResultService;
+import com.springboot.klos.service.mappers.LapMapper;
 import com.springboot.klos.service.mappers.ResultMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +26,25 @@ public class ResultServiceImpl implements ResultService {
     private final ResultDao resultDao;
     private final EventDao eventDao;
     private final ParticipantDao participantDao;
+    private final LapDao lapDao;
     private final ResultDataCalculator fieldsCalculator;
     private final ResultMapper resultMapper;
+    private final LapMapper lapMapper;
 
     public ResultServiceImpl(ResultDao resultDao,
                              EventDao eventDao,
                              ParticipantDao participantDao,
+                             LapDao lapDao,
                              ResultDataCalculator fieldsCalculator,
-                             ResultMapper resultMapper) {
+                             ResultMapper resultMapper,
+                             LapMapper lapMapper) {
         this.resultDao = resultDao;
         this.eventDao = eventDao;
         this.participantDao = participantDao;
+        this.lapDao = lapDao;
         this.fieldsCalculator = fieldsCalculator;
         this.resultMapper = resultMapper;
+        this.lapMapper = lapMapper;
     }
 
     @Override
@@ -67,6 +76,15 @@ public class ResultServiceImpl implements ResultService {
         return resultDao.findByEventAndIsDeleted(event, false)
                 .stream()
                 .map(resultMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LapResponseDto> getAllLapsForResult(Long id) {
+        Result result = resultDao.findByIdAndIsDeleted(id, false).orElseThrow(
+                () -> new ResourceNotFoundException("Result", "id", id.toString()));
+        return lapDao.findByResult(result).stream()
+                .map(lapMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 

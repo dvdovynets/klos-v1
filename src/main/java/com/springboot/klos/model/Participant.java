@@ -59,9 +59,9 @@ public class Participant {
     private boolean isDeleted;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "participant_roles",
-            joinColumns = @JoinColumn(name = "participant_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JoinTable(name = "participants_roles",
+            joinColumns = @JoinColumn(name = "participants_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     public enum Gender {

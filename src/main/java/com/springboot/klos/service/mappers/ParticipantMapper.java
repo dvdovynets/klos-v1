@@ -4,6 +4,7 @@ import com.springboot.klos.dto.request.ParticipantRequestDto;
 import com.springboot.klos.dto.response.ParticipantResponseDto;
 import com.springboot.klos.model.Participant;
 import com.springboot.klos.utils.DateTimePatternUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,6 +14,11 @@ import java.time.format.DateTimeFormatter;
 public class ParticipantMapper implements GenericMapper<Participant, ParticipantRequestDto, ParticipantResponseDto> {
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern(DateTimePatternUtil.DATE_PATTERN);
+    private final PasswordEncoder passwordEncoder;
+
+    public ParticipantMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public Participant mapToModel(ParticipantRequestDto dto) {
@@ -23,7 +29,7 @@ public class ParticipantMapper implements GenericMapper<Participant, Participant
         participant.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth(), formatter));
         participant.setCity(dto.getCity());
         participant.setEmail(dto.getEmail());
-        participant.setPassword(dto.getPassword());
+        participant.setPassword(passwordEncoder.encode(dto.getPassword()));
         participant.setPhoneNumber(dto.getPhoneNumber());
         return participant;
     }
