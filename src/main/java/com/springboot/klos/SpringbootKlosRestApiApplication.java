@@ -27,17 +27,17 @@ public class SpringbootKlosRestApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		roleService.createDefaultRoles();
-//
-//		ParticipantRequestDto admin = new ParticipantRequestDto();
-//		admin.setName(environment.getProperty("admin.name"));
-//		admin.setEmail(environment.getProperty("admin.email"));
-//		admin.setPassword(environment.getProperty("admin.password"));
-//
-//		try {
-//			participantService.createAdmin(admin);
-//		} catch (KLOSApiException e) {
-//			System.out.println("Default admin user is already created.");
-//		}
+		roleService.createDefaultRoles();
+
+		ParticipantRequestDto admin = new ParticipantRequestDto();
+		admin.setName(environment.getProperty("admin.name"));
+		admin.setEmail(environment.getProperty("admin.email"));
+		admin.setPassword(environment.getProperty("admin.password"));
+
+		try {
+			participantService.createAdmin(admin);
+		} catch (KLOSApiException e) {
+			System.out.println("Default admin user is already created.");
+		}
 	}
 }
