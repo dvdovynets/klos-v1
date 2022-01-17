@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class KLOSApiException extends RuntimeException {
     private final HttpStatus status;
-    private String message;
 
     public KLOSApiException(HttpStatus status, String message) {
         super(message);
@@ -17,6 +16,6 @@ public class KLOSApiException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return message;
+        return super.getMessage();
     }
 }

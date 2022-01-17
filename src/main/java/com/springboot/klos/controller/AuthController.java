@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,16 +28,13 @@ import javax.validation.Valid;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final ParticipantService participantService;
-    private final RoleService roleService;
     private final JwtTokenProvider tokenProvider;
 
     public AuthController(AuthenticationManager authenticationManager,
                           ParticipantService participantService,
-                          RoleService roleService,
                           JwtTokenProvider tokenProvider) {
         this.authenticationManager = authenticationManager;
         this.participantService = participantService;
-        this.roleService = roleService;
         this.tokenProvider = tokenProvider;
     }
 
@@ -63,20 +61,12 @@ public class AuthController {
     }
 
     @ApiOperation(value = "Endpoint for register as Admin", notes = "Access level ANY")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register/admin")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody ParticipantRequestDto dto) {
         if (participantService.checkIfEmailExists(dto.getEmail())) {
             return new ResponseEntity<>("Email is already taken.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(participantService.createAdmin(dto), HttpStatus.CREATED);
-    }
-
-    @ApiOperation(value = "Endpoint for roles creation",
-            notes = "Access level ANY. Creating default roles ADMIN and USER")
-    @PostMapping("/register/default-roles")
-    public ResponseEntity<String> createRoles() {
-        roleService.createRoles();
-        return new ResponseEntity<>(
-                "Roles Admin and User were successfully crated.", HttpStatus.CREATED);
     }
 }

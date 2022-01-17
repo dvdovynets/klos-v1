@@ -4,15 +4,18 @@ import com.springboot.klos.dao.RoleDao;
 import com.springboot.klos.dto.request.ParticipantRequestDto;
 import com.springboot.klos.dto.response.ParticipantResponseDto;
 import com.springboot.klos.dao.ParticipantDao;
+import com.springboot.klos.exception.KLOSApiException;
 import com.springboot.klos.exception.ResourceNotFoundException;
 import com.springboot.klos.model.Participant;
 import com.springboot.klos.model.Role;
 import com.springboot.klos.service.ParticipantService;
 import com.springboot.klos.service.mappers.ParticipantMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,13 @@ public class ParticipantServiceImpl implements ParticipantService {
     public ParticipantResponseDto createParticipant(ParticipantRequestDto dto) {
         Role roleUser = roleDao.findByName(Role.RoleName.ROLE_USER).orElseThrow(
                 () -> new ResourceNotFoundException("Role", "name", "ROLE_USER"));
+
+        Optional<Participant> participantOptional =
+                participantDao.findByEmailAndIsDeleted(dto.getEmail(), false);
+        if (participantOptional.isPresent()) {
+            throw new KLOSApiException(HttpStatus.BAD_REQUEST, "Email is exists in DB!");
+        }
+
         Participant participant = participantMapper.mapToModel(dto);
         participant.setRoles(Collections.singleton(roleUser));
         return participantMapper.mapToDto(participantDao.save(participant));
@@ -81,6 +91,13 @@ public class ParticipantServiceImpl implements ParticipantService {
                 () -> new ResourceNotFoundException("Role", "name", "ROLE_ADMIN"));
         Role roleUser = roleDao.findByName(Role.RoleName.ROLE_USER).orElseThrow(
                 () -> new ResourceNotFoundException("Role", "name", "ROLE_USER"));
+
+        Optional<Participant> participantOptional =
+                participantDao.findByEmailAndIsDeleted(dto.getEmail(), false);
+        if (participantOptional.isPresent()) {
+            throw new KLOSApiException(HttpStatus.BAD_REQUEST, "Email is already exists in DB!");
+        }
+
         Participant participant = participantMapper.mapToModel(dto);
         participant.setRoles(Set.of(roleUser, roleAdmin));
         return participantMapper.mapToDto(participantDao.save(participant));
