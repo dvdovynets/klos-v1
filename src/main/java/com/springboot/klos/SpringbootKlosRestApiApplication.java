@@ -13,6 +13,9 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 public class SpringbootKlosRestApiApplication implements CommandLineRunner {
 	@Autowired
+	private Environment environment;
+
+	@Autowired
 	private RoleService roleService;
 
 	@Autowired
@@ -27,9 +30,13 @@ public class SpringbootKlosRestApiApplication implements CommandLineRunner {
 		roleService.createDefaultRoles();
 
 		ParticipantRequestDto admin = new ParticipantRequestDto();
-		admin.setName("admin");
-		admin.setEmail("klos@gmail.com");
-		admin.setPassword("Kl0$admin");
+		admin.setName(environment.getProperty("admin.name"));
+		admin.setSurname(environment.getProperty("admin.surname"));
+		admin.setCity(environment.getProperty("admin.city"));
+		admin.setGender(environment.getProperty("admin.gender"));
+		admin.setEmail(environment.getProperty("admin.email"));
+		admin.setDateOfBirth(environment.getProperty("admin.dateOfBirth"));
+		admin.setPassword(environment.getProperty("admin.password"));
 
 		try {
 			participantService.createAdmin(admin);
