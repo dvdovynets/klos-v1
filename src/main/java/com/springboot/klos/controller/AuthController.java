@@ -5,7 +5,6 @@ import com.springboot.klos.dto.request.ParticipantRequestDto;
 import com.springboot.klos.dto.response.JWTAuthResponse;
 import com.springboot.klos.security.JwtTokenProvider;
 import com.springboot.klos.service.ParticipantService;
-import com.springboot.klos.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
