@@ -1,7 +1,6 @@
 package com.springboot.klos.service;
 
 import com.springboot.klos.dto.request.ParticipantRequestDto;
-import com.springboot.klos.dto.response.LapResponseDto;
 import com.springboot.klos.dto.response.ParticipantResponseDto;
 
 import java.util.List;
@@ -20,4 +19,6 @@ public interface ParticipantService {
     boolean checkIfEmailExists(String email);
 
     ParticipantResponseDto createAdmin(ParticipantRequestDto dto);
+
+    void createDefaultAdminAndRoles();
 }
