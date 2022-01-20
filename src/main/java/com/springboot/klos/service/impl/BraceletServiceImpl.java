@@ -34,7 +34,7 @@ public class BraceletServiceImpl implements BraceletService {
         Bracelet bracelet = mapper.mapToModel(dto);
 
         if (resultId != null) {
-            Result result = resultDao.findById(resultId)
+            Result result = resultDao.findByIdAndIsDeleted(resultId, false)
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Result", "id", resultId.toString()));
             bracelet.setResult(result);
@@ -58,7 +58,7 @@ public class BraceletServiceImpl implements BraceletService {
     @Override
     public BraceletResponseDto updateBracelet(BraceletRequestDto dto, String braceletId) {
         Long resultId = dto.getResultId();
-        Result result = resultDao.findById(resultId).orElseThrow(
+        Result result = resultDao.findByIdAndIsDeleted(resultId, false).orElseThrow(
                 () -> new ResourceNotFoundException(
                         "Result", "Id", resultId.toString()));
         Bracelet bracelet = braceletDao.findById(braceletId)
