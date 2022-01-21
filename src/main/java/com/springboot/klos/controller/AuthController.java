@@ -1,5 +1,6 @@
 package com.springboot.klos.controller;
 
+import com.springboot.klos.dto.request.AdminRequestDto;
 import com.springboot.klos.dto.request.LoginRequestDto;
 import com.springboot.klos.dto.request.ParticipantRequestDto;
 import com.springboot.klos.dto.response.JWTAuthResponse;
@@ -62,6 +63,15 @@ public class AuthController {
         return new ResponseEntity<>(participantService.createParticipant(dto), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Endpoint for register as Admin", notes = "Access level ADMIN")
+    @PostMapping("/register/admin")
+    public ResponseEntity<?> createAdmin(@Valid @RequestBody AdminRequestDto dto) {
+        if (participantService.checkIfEmailExists(dto.getEmail())) {
+            return new ResponseEntity<>("Email is already taken.", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(participantService.createAdmin(dto), HttpStatus.CREATED);
+    }
+
     @ApiOperation(value = "Endpoint for creation of default admin and roles",
             notes = "Access level Any")
     @PostMapping("/register/admin-with-roles")
@@ -71,14 +81,5 @@ public class AuthController {
         }
         participantService.createDefaultAdminAndRoles();
         return new ResponseEntity<>("Admin and Roles successfully created!", HttpStatus.CREATED);
-    }
-
-    @ApiOperation(value = "Endpoint for register as Admin", notes = "Access level ADMIN")
-    @PostMapping("/register/admin")
-    public ResponseEntity<?> createAdmin(@Valid @RequestBody ParticipantRequestDto dto) {
-        if (participantService.checkIfEmailExists(dto.getEmail())) {
-            return new ResponseEntity<>("Email is already taken.", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(participantService.createAdmin(dto), HttpStatus.CREATED);
     }
 }

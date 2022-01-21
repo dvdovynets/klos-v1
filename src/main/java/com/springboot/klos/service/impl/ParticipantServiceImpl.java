@@ -1,6 +1,7 @@
 package com.springboot.klos.service.impl;
 
 import com.springboot.klos.dao.RoleDao;
+import com.springboot.klos.dto.request.AdminRequestDto;
 import com.springboot.klos.dto.request.ParticipantRequestDto;
 import com.springboot.klos.dto.response.ParticipantResponseDto;
 import com.springboot.klos.dao.ParticipantDao;
@@ -85,24 +86,28 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public ParticipantResponseDto createAdmin(ParticipantRequestDto dto) {
+    public ParticipantResponseDto createAdmin(AdminRequestDto dto) {
         Role roleAdmin = roleDao.findByName(Role.RoleName.ROLE_ADMIN).orElseThrow(
                 () -> new ResourceNotFoundException("Role", "name", "ROLE_ADMIN"));
         Role roleUser = roleDao.findByName(Role.RoleName.ROLE_USER).orElseThrow(
                 () -> new ResourceNotFoundException("Role", "name", "ROLE_USER"));
 
-        Participant participant = participantMapper.mapToModel(dto);
+        Participant participant = participantMapper.mapToAdmin(dto);
         participant.setRoles(Set.of(roleUser, roleAdmin));
+
         return participantMapper.mapToDto(participantDao.save(participant));
     }
 
     @Override
     public void createDefaultAdminAndRoles() {
-        Participant admin = new Participant();
-        admin.setName(environment.getProperty("admin.name"));
-        admin.setSurname(environment.getProperty("admin.surname"));
-        admin.setEmail(environment.getProperty("admin.email"));
-        admin.setPassword(environment.getProperty("admin.password"));
+        AdminRequestDto dto = new AdminRequestDto();
+        dto.setName(environment.getProperty("admin.name"));
+        dto.setEmail(environment.getProperty("admin.email"));
+        dto.setGender(environment.getProperty("admin.gender"));
+        dto.setDateOfBirth(environment.getProperty("admin.dateOfBirth"));
+        dto.setPassword(environment.getProperty("admin.password"));
+
+        Participant admin = participantMapper.mapToAdmin(dto);
 
         Set<Role> defaultRoles = roleService.createDefaultRoles();
         admin.setRoles(defaultRoles);

@@ -1,5 +1,6 @@
 package com.springboot.klos.service.mappers;
 
+import com.springboot.klos.dto.request.AdminRequestDto;
 import com.springboot.klos.dto.request.ParticipantRequestDto;
 import com.springboot.klos.dto.response.ParticipantResponseDto;
 import com.springboot.klos.model.Participant;
@@ -55,6 +56,15 @@ public class ParticipantMapper implements GenericMapper<Participant, Participant
         participant.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth(), formatter));
         participant.setCity(dto.getCity());
         participant.setPhoneNumber(dto.getPhoneNumber());
+        return participant;
+    }
+
+    public Participant mapToAdmin(AdminRequestDto dto) {
+        Participant participant = new Participant();
+        participant.setName(dto.getName());
+        participant.setEmail(dto.getEmail());
+        participant.setPassword(passwordEncoder.encode(dto.getPassword()));
+        participant.setGender(Participant.Gender.valueOf(dto.getGender()));
         return participant;
     }
 }

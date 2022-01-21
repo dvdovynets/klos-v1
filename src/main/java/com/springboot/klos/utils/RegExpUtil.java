@@ -9,6 +9,10 @@ public class RegExpUtil {
     public static final String PASSWORD_REGEXP =
             "^(?=.*[0-9])"
             + "(?=.*[a-z])(?=.*[A-Z])"
+            + "(?=\\S+$).{8,20}$";
+    public static final String PASSWORD_REGEXP_ADMIN =
+            "^(?=.*[0-9])"
+            + "(?=.*[a-z])(?=.*[A-Z])"
             + "(?=.*[@#$%^&+=])"
-            + "(?=\\S+$).{6,20}$";
+            + "(?=\\S+$).{8,20}$";
 }
