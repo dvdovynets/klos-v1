@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @ApiModel(description = "Result request DTO")
@@ -15,10 +16,10 @@ public class ResultRequestDto {
     private String status;
 
     @ApiModelProperty(value = "Participant id to which result is connected")
-    @NotEmpty(message = "Participant is must not be empty")
+    @Min(value = 1, message = "Participant id must not be empty")
     private Long participantId;
 
     @ApiModelProperty(value = "Event id to which result is connected")
-    @NotEmpty(message = "Event id must not be empty")
+    @Min(value = 1, message = "Event id must not be empty")
     private Long eventId;
 }
