@@ -2,6 +2,7 @@ package com.springboot.klos.controller;
 
 import com.springboot.klos.dto.request.LapRequestDto;
 import com.springboot.klos.dto.response.LapResponseDto;
+import com.springboot.klos.exception.KLOSApiException;
 import com.springboot.klos.service.LapService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +36,12 @@ public class LapRestController {
                     + "Also it will recalculate all statistic fields for related result.")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<LapResponseDto> createLap(@Valid @RequestBody LapRequestDto dto) {
-        return new ResponseEntity<>(lapService.createLap(dto), HttpStatus.CREATED);
+    public ResponseEntity<?> createLap(@Valid @RequestBody LapRequestDto dto) {
+        try {
+            return new ResponseEntity<>(lapService.createLap(dto), HttpStatus.CREATED);
+        } catch (KLOSApiException e) {
+            return new ResponseEntity<>("Lap is already exists in DB.", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ApiOperation(value = "Endpoint for getting all laps", notes = "Access level USER.")

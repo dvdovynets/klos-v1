@@ -13,6 +13,9 @@ public class ResultResponseDto {
     @ApiModelProperty(value = "Current status. Could be 'DNS', 'DNF', 'RUNNING' and 'WINNER'")
     private String status;
 
+    @ApiModelProperty(value = "Number the participant wears during the event")
+    private int bib;
+
     @ApiModelProperty(value = "Participant full name")
     private String participantFullName;
 

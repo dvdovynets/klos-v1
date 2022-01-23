@@ -26,4 +26,7 @@ public class LapResponseDto {
 
     @ApiModelProperty(value = "Id for result to which this lap is connected")
     private Long resultId;
+
+    @ApiModelProperty(value = "Number the participant wears during the event")
+    private int bib;
 }

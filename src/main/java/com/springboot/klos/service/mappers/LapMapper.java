@@ -26,6 +26,7 @@ public class LapMapper implements GenericMapper<Lap, LapRequestDto, LapResponseD
         dto.setActualTime(lap.getActualTime().format(dateTimeformatter));
         dto.setScannerId(lap.getScannerId());
         dto.setResultId(lap.getResult().getId());
+        dto.setBib(lap.getResult().getBib());
         return dto;
     }
 

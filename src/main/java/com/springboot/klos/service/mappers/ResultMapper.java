@@ -18,6 +18,7 @@ public class ResultMapper implements GenericMapper<Result, ResultRequestDto, Res
     public Result mapToModel(ResultRequestDto dto) {
         Result result = new Result();
         result.setStatus(Result.Status.valueOf(dto.getStatus()));
+        result.setBib(dto.getBib());
         return result;
     }
 
@@ -26,6 +27,7 @@ public class ResultMapper implements GenericMapper<Result, ResultRequestDto, Res
         ResultResponseDto dto = new ResultResponseDto();
         dto.setResultId(result.getId());
         dto.setStatus(result.getStatus().name());
+        dto.setBib(result.getBib());
         dto.setLapsCompleted(result.getLapsCompleted());
         dto.setTotalDistance(result.getTotalDistance());
         dto.setFastestLoop(result.getFastestLoop().format(timeFormatter));
@@ -38,6 +40,7 @@ public class ResultMapper implements GenericMapper<Result, ResultRequestDto, Res
 
     public Result mapDataToResult(Result result, ResultRequestDto dto) {
         result.setStatus(Result.Status.valueOf(dto.getStatus()));
+        result.setBib(dto.getBib());
         return result;
     }
 

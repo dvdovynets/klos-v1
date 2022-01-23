@@ -27,7 +27,10 @@ public class Result {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 7)
-    private Status status = Status.DNS;
+    private Status status;
+
+    @Column(name = "bib")
+    private int bib;
 
     @Column(name = "laps_completed")
     private int lapsCompleted;

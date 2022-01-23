@@ -15,6 +15,9 @@ public class ResultRequestDto {
     @NotEmpty(message = "Status must not be empty")
     private String status;
 
+    @ApiModelProperty(value = "Number the participant wears during the event")
+    private int bib;
+
     @ApiModelProperty(value = "Participant id to which result is connected")
     @Min(value = 1, message = "Participant id must not be empty")
     private Long participantId;

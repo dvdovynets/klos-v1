@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface LapDao extends JpaRepository<Lap, Long> {
     List<Lap> findByResult(Result result);
+
+    boolean existsByResultAndLapNumber(Result result, int lapNumber);
 }

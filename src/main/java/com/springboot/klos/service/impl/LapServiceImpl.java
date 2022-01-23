@@ -4,6 +4,7 @@ import com.springboot.klos.dao.BraceletDao;
 import com.springboot.klos.dao.LapDao;
 import com.springboot.klos.dto.request.LapRequestDto;
 import com.springboot.klos.dto.response.LapResponseDto;
+import com.springboot.klos.exception.KLOSApiException;
 import com.springboot.klos.exception.ResourceNotFoundException;
 import com.springboot.klos.model.Bracelet;
 import com.springboot.klos.model.Result;
@@ -11,6 +12,7 @@ import com.springboot.klos.model.Lap;
 import com.springboot.klos.service.ResultService;
 import com.springboot.klos.service.LapService;
 import com.springboot.klos.service.mappers.LapMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +41,11 @@ public class LapServiceImpl implements LapService {
         Bracelet bracelet = braceletDao.findById(braceletId).orElseThrow(
                 () -> new ResourceNotFoundException("Bracelet", "id", braceletId));
         Result result = bracelet.getResult();
+        boolean lapAlreadyInDb = lapDao.existsByResultAndLapNumber(result, dto.getLapNumber());
+
+        if (lapAlreadyInDb) {
+            throw new KLOSApiException(HttpStatus.BAD_REQUEST, "Lap is already exists in DB.");
+        }
 
         Lap lap = mapper.mapToModel(dto);
         lap.setResult(result);
