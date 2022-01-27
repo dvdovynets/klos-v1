@@ -49,7 +49,6 @@ public class ResultServiceImpl implements ResultService {
 
     @Override
     public ResultResponseDto createResult(ResultRequestDto dto) {
-
         Long eventId = dto.getEventId();
         Long participantId = dto.getParticipantId();
         Event event = eventDao.findById(eventId).orElseThrow(
@@ -71,7 +70,7 @@ public class ResultServiceImpl implements ResultService {
                     .collect(Collectors.toList());
         }
 
-        Event event = eventDao.findById(eventId).orElseThrow(
+        Event event = eventDao.findByIdAndIsDeleted(eventId, false).orElseThrow(
                 () -> new ResourceNotFoundException("Event", "id", eventId.toString()));
         return resultDao.findByEventAndIsDeleted(event, false)
                 .stream()

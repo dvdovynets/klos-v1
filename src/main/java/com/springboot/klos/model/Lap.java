@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -40,4 +41,26 @@ public class Lap {
     @ManyToOne
     @JoinColumn(name = "results_id")
     private Result result;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Lap)) {
+            return false;
+        }
+        Lap lap = (Lap) obj;
+        return lapNumber == lap.lapNumber
+                && Objects.equals(id, lap.id)
+                && Objects.equals(lapTime, lap.lapTime)
+                && Objects.equals(actualTime, lap.actualTime)
+                && Objects.equals(scannerId, lap.scannerId)
+                && Objects.equals(result, lap.result);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, lapNumber, lapTime, actualTime, scannerId, result);
+    }
 }

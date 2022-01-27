@@ -65,7 +65,7 @@ public class ParticipantMapper implements GenericMapper<Participant, Participant
         participant.setEmail(dto.getEmail());
         participant.setPassword(passwordEncoder.encode(dto.getPassword()));
         participant.setGender(Participant.Gender.valueOf(dto.getGender()));
-        participant.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth()));
+        participant.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth(), formatter));
         return participant;
     }
 }

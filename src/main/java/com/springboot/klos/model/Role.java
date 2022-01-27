@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -29,5 +30,22 @@ public class Role {
 
     public enum RoleName {
         ROLE_ADMIN, ROLE_USER
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Role)) {
+            return false;
+        }
+        Role role = (Role) obj;
+        return Objects.equals(id, role.id) && name == role.name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

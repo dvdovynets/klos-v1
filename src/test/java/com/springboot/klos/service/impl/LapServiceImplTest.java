@@ -8,7 +8,6 @@ import com.springboot.klos.model.Bracelet;
 import com.springboot.klos.model.Lap;
 import com.springboot.klos.model.Result;
 import com.springboot.klos.service.ResultService;
-import com.springboot.klos.service.mappers.BraceletMapper;
 import com.springboot.klos.service.mappers.LapMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

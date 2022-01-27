@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -29,4 +30,24 @@ public class Event {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Event)) {
+            return false;
+        }
+        Event event = (Event) obj;
+        return isDeleted == event.isDeleted
+                && Objects.equals(id, event.id)
+                && Objects.equals(eventName, event.eventName)
+                && Objects.equals(eventDate, event.eventDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, eventName, eventDate, isDeleted);
+    }
 }

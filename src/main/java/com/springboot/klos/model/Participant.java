@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -66,5 +67,43 @@ public class Participant {
 
     public enum Gender {
         MALE, FEMALE, OTHER
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Participant)) {
+            return false;
+        }
+        Participant that = (Participant) obj;
+        return isDeleted == that.isDeleted
+                && Objects.equals(id, that.id)
+                && Objects.equals(name, that.name)
+                && Objects.equals(surname, that.surname)
+                && gender == that.gender
+                && Objects.equals(dateOfBirth, that.dateOfBirth)
+                && Objects.equals(city, that.city)
+                && Objects.equals(phoneNumber, that.phoneNumber)
+                && Objects.equals(email, that.email)
+                && Objects.equals(password, that.password)
+                && Objects.equals(roles, that.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id,
+                name,
+                surname,
+                gender,
+                dateOfBirth,
+                city,
+                phoneNumber,
+                email,
+                password,
+                isDeleted,
+                roles);
     }
 }

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -63,5 +64,43 @@ public class Result {
 
     public enum Status {
         DNS, DNF, RUNNING, WINNER
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Result)) {
+            return false;
+        }
+        Result result = (Result) obj;
+        return bib == result.bib
+                && lapsCompleted == result.lapsCompleted
+                && Double.compare(result.totalDistance, totalDistance) == 0
+                && isDeleted == result.isDeleted && Objects.equals(id, result.id)
+                && status == result.status && Objects.equals(fastestLoop, result.fastestLoop)
+                && Objects.equals(slowestLoop, result.slowestLoop)
+                && Objects.equals(averageLoop, result.averageLoop)
+                && Objects.equals(totalTimeRunning, result.totalTimeRunning)
+                && Objects.equals(participant, result.participant)
+                && Objects.equals(event, result.event);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id,
+                status,
+                bib,
+                lapsCompleted,
+                totalDistance,
+                fastestLoop,
+                slowestLoop,
+                averageLoop,
+                totalTimeRunning,
+                participant,
+                event,
+                isDeleted);
     }
 }
