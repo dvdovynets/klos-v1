@@ -45,7 +45,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void test_authenticateUser_Ok() {
+    void test_authenticateUser_ok() {
         LoginRequestDto dto = new LoginRequestDto();
         dto.setEmail("u@gmail.com");
         dto.setPassword("password");
@@ -64,7 +64,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void test_createUser_Ok() {
+    void test_createUser_ok() {
         ParticipantRequestDto requestDto = new ParticipantRequestDto();
         requestDto.setName("name");
         requestDto.setSurname("surname");
@@ -150,7 +150,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void test_createAdmin_Ok() {
+    void test_createAdmin_ok() {
         AdminRequestDto requestDto = new AdminRequestDto();
         requestDto.setName("name");
         requestDto.setEmail("a@gmail.com");
@@ -232,7 +232,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void test_createDefaultAdminAndRoles_Ok() {
+    void test_createDefaultAdminAndRoles_ok() {
         Mockito.when(participantService.checkIfEmailExists(anyString())).thenReturn(false);
 
         RestAssuredMockMvc.given()

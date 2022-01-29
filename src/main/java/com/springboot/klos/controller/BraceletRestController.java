@@ -62,6 +62,6 @@ public class BraceletRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBracelet(@PathVariable(name = "id") String id) {
         braceletService.deleteBracelet(id);
-        return new ResponseEntity<>("Bracelet was successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>("Bracelet was deleted successfully!", HttpStatus.OK);
     }
 }
