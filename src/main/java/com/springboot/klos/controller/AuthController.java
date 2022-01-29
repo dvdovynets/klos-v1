@@ -80,6 +80,6 @@ public class AuthController {
             return new ResponseEntity<>("Default Admin and Roles already created.", HttpStatus.BAD_REQUEST);
         }
         participantService.createDefaultAdminAndRoles();
-        return new ResponseEntity<>("Admin and Roles successfully created!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Admin and Roles created successfully!", HttpStatus.CREATED);
     }
 }

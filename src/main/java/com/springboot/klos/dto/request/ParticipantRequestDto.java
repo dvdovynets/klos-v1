@@ -6,10 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @ApiModel(description = "Participant request DTO")
 @Data
@@ -32,6 +30,7 @@ public class ParticipantRequestDto {
     private String gender;
 
     @ApiModelProperty(value = "Date of birth, for example 01.01.2001")
+    @NotEmpty(message = "Date of birth must not be empty")
     @Pattern(regexp = RegExpUtil.DATE_REGEXP,
             message = "Please provide a date in format dd.mm.yyyy")
     private String dateOfBirth;
@@ -42,7 +41,8 @@ public class ParticipantRequestDto {
     @ApiModelProperty(value = "Email that will be used as login in application, "
             + "for example d@gmail.com")
     @NotEmpty(message = "Email must not be empty")
-    @Email(message = "Please provide valid email address")
+    @Pattern(regexp = RegExpUtil.EMAIL_REGEXP,
+            message = "Please provide valid email address")
     private String email;
 
     @ApiModelProperty(value = "Password, at least 8 symbols")
@@ -50,7 +50,7 @@ public class ParticipantRequestDto {
     @Pattern(regexp = RegExpUtil.PASSWORD_REGEXP,
             message = "Password must be at least 8 symbols "
                     + "and have at least one upper case letter, "
-                    + "one lover case letter,"
+                    + "one lover case letter, "
                     + "and one digit")
     private String password;
 

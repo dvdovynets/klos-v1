@@ -25,7 +25,8 @@ public class AdminRequestDto {
     @ApiModelProperty(value = "Email that will be used as login in application, "
             + "for example d@gmail.com")
     @NotEmpty(message = "Email must not be empty")
-    @Email(message = "Please provide valid email address")
+    @Pattern(regexp = RegExpUtil.EMAIL_REGEXP,
+            message = "Please provide valid email address")
     private String email;
 
     @ApiModelProperty(value = "Available three genders 'MALE', 'FEMALE' and 'OTHER'")
@@ -42,8 +43,8 @@ public class AdminRequestDto {
     @Pattern(regexp = RegExpUtil.PASSWORD_REGEXP_ADMIN,
             message = "Password must be at least 8 symbols "
                     + "and have at least one upper case letter, "
-                    + "one lover case letter,"
-                    + "one special symbol"
+                    + "one lover case letter, "
+                    + "one special symbol "
                     + "and one digit")
     private String password;
 
