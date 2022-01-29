@@ -56,6 +56,6 @@ public class ParticipantRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteParticipant(@PathVariable(name = "id") Long id) {
         participantService.deleteParticipant(id);
-        return new ResponseEntity<>("Participant was successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>("Participant was deleted successfully!", HttpStatus.OK);
     }
 }
