@@ -36,6 +36,7 @@ class ParticipantRestControllerTest {
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.mockMvc(mockMvc);
+
         requestDto = new ParticipantRequestDto();
         requestDto.setName("name");
         requestDto.setSurname("surname");

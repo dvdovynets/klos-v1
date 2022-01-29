@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,28 +30,24 @@ public class EventRestController {
     }
 
     @ApiOperation(value = "Endpoint for adding new event", notes = "Access level ADMIN")
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<EventResponseDto> createEvent(@Valid @RequestBody EventRequestDto dto) {
         return new ResponseEntity<>(eventService.createEvent(dto), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Endpoint for getting all events", notes = "Access level USER")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public List<EventResponseDto> getAllEvents() {
         return eventService.getAllEvents();
     }
 
     @ApiOperation(value = "Endpoint for getting event by id", notes = "Access level USER")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<EventResponseDto> getEventById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(eventService.getEventById(id));
     }
 
     @ApiOperation(value = "Endpoint for updating an event", notes = "Access level ADMIN")
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<EventResponseDto> updateEvent(
             @Valid @RequestBody EventRequestDto dto, @PathVariable(name = "id") Long id) {
@@ -60,10 +55,9 @@ public class EventRestController {
     }
 
     @ApiOperation(value = "Endpoint for soft deleting an event", notes = "Access level ADMIN")
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable(name = "id") Long id) {
         eventService.deleteEvent(id);
-        return new ResponseEntity<>("Event was successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>("Event was deleted successfully!", HttpStatus.OK);
     }
 }

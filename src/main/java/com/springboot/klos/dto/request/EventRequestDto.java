@@ -16,6 +16,7 @@ public class EventRequestDto {
     private String eventName;
 
     @ApiModelProperty(value = "The date for the start of the particular event")
+    @NotEmpty(message = "Event date must not be empty")
     @Pattern(regexp = RegExpUtil.DATE_REGEXP,
             message = "Please provide a date in format dd.mm.yyyy")
     private String eventDate;

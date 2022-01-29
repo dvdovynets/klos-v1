@@ -37,6 +37,7 @@ class BraceletRestControllerTest {
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.mockMvc(mockMvc);
+
         requestDto = new BraceletRequestDto();
         requestDto.setBraceletId("AA:BB:CC");
         requestDto.setResultId(1L);
