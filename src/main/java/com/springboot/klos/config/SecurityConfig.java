@@ -53,11 +53,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/participants/**").hasRole("USER")
                 .antMatchers("/api/v1/bracelets/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/v1/events/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/api/v1/events").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/v1/events/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/v1/events/{id}").hasRole("ADMIN")
                 .antMatchers("/api/v1/auth/register/admin").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/v1/results").hasRole("USER")
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/api/v1/events/**",
+                        "/api/v1/laps/**").hasRole("USER")
+                .antMatchers(
+                        HttpMethod.POST,
+                        "/api/v1/events",
+                        "/api/v1/laps").hasRole("ADMIN")
+                .antMatchers(
+                        HttpMethod.PUT,
+                        "/api/v1/events/{id}",
+                        "/api/v1/laps/{id}",
+                        "/api/v1/results/{id}").hasRole("ADMIN")
+                .antMatchers(
+                        HttpMethod.DELETE,
+                        "/api/v1/events/{id}",
+                        "/api/v1/laps/{id}",
+                        "/api/v1/results/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/v1/results/**").permitAll()
                 .antMatchers("/api/v1/auth/register").permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
                 .antMatchers("/api/v1/auth/register/admin-with-roles").permitAll()

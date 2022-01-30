@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +33,6 @@ public class LapRestController {
     @ApiOperation(value = "Endpoint for adding new lap",
             notes = "Access level ADMIN. "
                     + "Also it will recalculate all statistic fields for related result.")
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createLap(@Valid @RequestBody LapRequestDto dto) {
         try {
@@ -45,22 +43,19 @@ public class LapRestController {
     }
 
     @ApiOperation(value = "Endpoint for getting all laps", notes = "Access level USER.")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public List<LapResponseDto> getAllLaps() {
         return lapService.getAllLaps();
     }
 
     @ApiOperation(value = "Endpoint for getting lap by id", notes = "Access level USER.")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<LapResponseDto> getLapById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(lapService.getLapById(id));
     }
 
     @ApiOperation(value = "Endpoint for getting all laps for related result",
-            notes = "Access level USER.")
-    @PreAuthorize("hasRole('USER')")
+            notes = "Access level ADMIN.")
     @PutMapping("/{id}")
     public ResponseEntity<LapResponseDto> updateLap(
             @Valid @RequestBody LapRequestDto dto, @PathVariable(name = "id") Long id) {
@@ -68,10 +63,9 @@ public class LapRestController {
     }
 
     @ApiOperation(value = "Endpoint for deleting a lap", notes = "Access level ADMIN.")
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteLap(@PathVariable(name = "id") Long id) {
         lapService.deleteLap(id);
-        return new ResponseEntity<>("Lap was successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>("Lap was deleted successfully!", HttpStatus.OK);
     }
 }

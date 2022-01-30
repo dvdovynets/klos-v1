@@ -19,10 +19,10 @@ public class ResultRequestDto {
     private int bib;
 
     @ApiModelProperty(value = "Participant id to which result is connected")
-    @Min(value = 1, message = "Participant id must not be empty")
+    @Min(value = 1, message = "Provide valid participant id")
     private Long participantId;
 
     @ApiModelProperty(value = "Event id to which result is connected")
-    @Min(value = 1, message = "Event id must not be empty")
+    @Min(value = 1, message = "Provide valid event id")
     private Long eventId;
 }

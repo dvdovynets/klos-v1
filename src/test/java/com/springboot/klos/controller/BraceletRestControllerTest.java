@@ -30,7 +30,6 @@ class BraceletRestControllerTest {
     private BraceletRequestDto requestDto;
     private BraceletResponseDto responseDto;
 
-
     @Autowired
     private MockMvc mockMvc;
 

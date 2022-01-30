@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +33,6 @@ public class ResultRestController {
 
     @ApiOperation(value = "Endpoint for registration for a new event(adding new result)",
             notes = "Access level USER.")
-    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<ResultResponseDto> createResult(
             @Valid @RequestBody ResultRequestDto dto) {
@@ -42,10 +40,9 @@ public class ResultRestController {
     }
 
     @ApiOperation(value = "Endpoint for getting all results",
-            notes = "Access level USER. "
+            notes = "Access level ANY. "
                     + "If an eventId will be added, endpoint will return results for "
                     + "a particular event.")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public List<ResultResponseDto> getAllResults(
             @RequestParam(value = "eventId", defaultValue = "0", required = false) Long eventId) {
@@ -53,16 +50,14 @@ public class ResultRestController {
     }
 
     @ApiOperation(value = "Endpoint for getting all laps for result",
-            notes = "Access level USER.")
-    @PreAuthorize("hasRole('USER')")
+            notes = "Access level ANY")
     @GetMapping("/{id}/laps")
     public List<LapResponseDto> getAllLapsForResult(@PathVariable(name = "id") Long id) {
         return resultService.getAllLapsForResult(id);
     }
 
     @ApiOperation(value = "Endpoint for getting result by id",
-            notes = "Access level USER.")
-    @PreAuthorize("hasRole('USER')")
+            notes = "Access level ANY")
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponseDto> getResultById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(resultService.getResultById(id));
@@ -70,7 +65,6 @@ public class ResultRestController {
 
     @ApiOperation(value = "Endpoint for updating a result",
             notes = "Access level ADMIN.")
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResultResponseDto> updateResult(
             @Valid @RequestBody ResultRequestDto dto, @PathVariable(name = "id") Long id) {
@@ -79,10 +73,9 @@ public class ResultRestController {
 
     @ApiOperation(value = "Endpoint for soft deleting a result",
             notes = "Access level ADMIN.")
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteResult(@PathVariable(name = "id") Long id) {
         resultService.deleteResult(id);
-        return new ResponseEntity<>("Result was successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>("Result was deleted successfully!", HttpStatus.OK);
     }
 }
